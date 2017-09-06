@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="style/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="style/style.css" />
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+    <script type="text/javascript" src="js/script.js"></script>
+    <title>MongoDB</title>
+</head>
+
+<body>
+    <div class="page">
+
+        <form name="form" id="form">
+            <input type="text" id="taskName" name="taskName" placeholder="Task Name">
+            <input type="date" id="deadline" name="deadline">
+            <input type="submit" id="submit" name="submit" value="add task">
+        </form>
+
+        <div class="filterPanel clear">
+            <i class="fa fa-search" aria-hidden="true"></i>
+            <input type="text" placeholder="Search task..." id="search" autocomplete="of">
+            <button class="filter exp">Expired</button>
+            <button class="filter today">Make Today</button>
+            <button class="filter notDone">Not Done</button>
+            <button class="filter done">Done</button>
+            <button class="filter all active">All</button>
+        </div>
+
+
+
+        <div class="taskBook">
+
+        </div>
+    </div>
+</body>
+
+</html>

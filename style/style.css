@@ -1,0 +1,175 @@
+body {
+    font-size: 16px;
+}
+
+* {
+    color: #222;
+    font-family: 'Comic Sans MS';
+}
+
+.clear:after {
+    content: "";
+    clear: both;
+    display: block;
+}
+
+.page {
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 10px;
+    width: 960px;
+}
+
+
+/*====== Form Add Task ======*/
+
+#form {
+    display: flex;
+    flex-flow: row wrap;
+    margin: 20px 0;
+}
+
+input {
+    background: #fff;
+    border: none;
+    flex: 0 1 auto;
+    outline: none;
+    padding: 10px;
+}
+
+#taskName {
+    flex-grow: 3;
+    border: 2px solid #777;
+    border-radius: 10px 0 0 10px;
+}
+
+#taskName:-webkit-autofill {
+    -webkit-box-shadow: inset 0 0 0 50px #fff !important;
+    /*autofill chrome*/
+}
+
+#deadline {
+    border-bottom: 2px solid #777;
+    border-top: 2px solid #777;
+}
+
+#submit {
+    border: 2px solid #777;
+    border-radius: 0 10px 10px 0;
+    cursor: pointer;
+    padding: 0 20px;
+    transition: all 0.4s;
+}
+
+#submit:hover,
+#deadline:focus,
+#taskName:focus,
+button:hover {
+    box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.2), inset -2px -2px 2px rgba(0, 0, 0, 0.2);
+}
+
+
+/*====== Filter Panel ======*/
+
+.filterPanel {
+    margin: 20px 0;
+}
+
+button {
+    background: none;
+    border: 2px solid #777;
+    border-radius: 10px;
+    cursor: pointer;
+    float: right;
+    margin-left: 10px;
+    outline: none;
+    padding: 10px 20px;
+    transition: all 0.4s;
+}
+
+.active {
+    box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.2), inset -2px -2px 2px rgba(0, 0, 0, 0.2);
+}
+
+
+/*====== Task View ======*/
+
+.task {
+    background: #fff;
+    box-shadow: 0 10px 6px -5px rgba(0, 0, 0, 0.3);
+    margin-bottom: 15px;
+    padding: 5px;
+}
+
+.expired {
+    box-shadow: 0 10px 6px -5px rgba(255, 0, 8, 0.5);
+}
+
+.taskRend {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.0);
+    font-size: 20px;
+    width: 80%;
+    transition: border 0.4s;
+    text-overflow: ellipsis;
+}
+
+.taskRend:focus {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+input.done {
+    color: #777;
+    text-decoration: line-through;
+}
+
+.editLink,
+.deleteLink,
+.saveLink {
+    cursor: pointer;
+    float: right;
+    margin: 5px 0 0 10px;
+    transition: all 0.4s;
+}
+
+.editLink {
+    margin-top: 7px;
+}
+
+.editLink:hover,
+.deleteLink:hover,
+.saveLink:hover {
+    color: #E32B31;
+}
+
+.timeEnd {
+    font-size: 14px;
+}
+
+.red,
+.red i {
+    color: rgb(255, 0, 8);
+    font-weight: 800;
+}
+
+.timeEnd i {
+    margin-right: 10px;
+}
+
+.timeLeft {
+    margin-left: 25px;
+}
+
+.makeToday {
+    color: #2B6EE3;
+}
+
+.hide,
+.searchHide {
+    display: none;
+}
+
+@media (max-width: 960px) {
+    .page {
+        width: 96%;
+    }
+}
