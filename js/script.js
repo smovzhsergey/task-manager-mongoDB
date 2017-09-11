@@ -1,18 +1,18 @@
 $(document).ready(function() {
-    var task = $('#taskName');
-    var deadline = $('#deadline');
-    var submit = $('#submit');
-
-    // min start date for input[date]
+    db = localStorage.getItem('db')
+        // min start date for input[date]
     $('input[type = date]').attr('min', getDate);
 
-    // output task list
     getTask();
+
 
     // add task
     $('#form').on('submit', function(e) {
         e.preventDefault();
-        var url = "https://api.mlab.com/api/1/databases/phonebook/collections/task?apiKey=qk_MeyFtWmpiezNlUJb-fQGGcvA3lBqJ";
+        var task = $('#taskName');
+        var deadline = $('#deadline');
+        var submit = $('#submit');
+        var url = "https://api.mlab.com/api/1/databases/phonebook/collections/" + db + "?apiKey=qk_MeyFtWmpiezNlUJb-fQGGcvA3lBqJ";
         var taskVal = task.val();
         var deadlineVal = deadline.val();
         var type = "POST";
@@ -20,26 +20,24 @@ $(document).ready(function() {
 
         if (taskVal !== '' && deadlineVal !== '') { // check form
 
-            //refresh server data
             updateTask(url, type, taskVal, deadlineVal, done);
 
             //clear form
-            $('#taskName').val('');
-            $('#deadline').val('');
+            task.val('');
+            deadline.val('');
         }
-
     });
 
     // edit taskName and deadline editbutton
     $('body').on('click', '.editLink', function(e) {
-        e.preventDefault();
+
         var $this = $(this);
         var done = $this.siblings().filter('.taskDone').data('done');
         var inptDeadline = $this.parent().siblings().filter('.deadlineRend');
         var valDeadline = inptDeadline.data('deadline');
         var inpt = $this.siblings().filter('.taskRend');
         var id = $(this).data('id');
-        var urlId = "https://api.mlab.com/api/1/databases/phonebook/collections/task/" + id + "?apiKey=qk_MeyFtWmpiezNlUJb-fQGGcvA3lBqJ";
+        var urlId = "https://api.mlab.com/api/1/databases/phonebook/collections/" + db + "/" + id + "?apiKey=qk_MeyFtWmpiezNlUJb-fQGGcvA3lBqJ";
         var type = "PUT";
         var save = $(this).next();
 
@@ -61,12 +59,6 @@ $(document).ready(function() {
                 .removeAttr('disabled')
                 .focus();
 
-
-            /*$('.taskRend, .deadlineRend').keypress(function(event) {
-                if (event.which == 13) {                   
-                }
-            });*/
-
             save.on('click', function() {
 
                 if (inpt.val() == '')
@@ -85,7 +77,6 @@ $(document).ready(function() {
                 //refresh server data
                 updateTask(urlId, type, inpt.val(), valDeadline, done);
             });
-
         }
     });
 
@@ -94,7 +85,7 @@ $(document).ready(function() {
 
         $(this).parents('.task').slideUp(100);
         var id = $(this).data('id');
-        var urlId = "https://api.mlab.com/api/1/databases/phonebook/collections/task/" + id + "?apiKey=qk_MeyFtWmpiezNlUJb-fQGGcvA3lBqJ";
+        var urlId = "https://api.mlab.com/api/1/databases/phonebook/collections/" + db + "/" + id + "?apiKey=qk_MeyFtWmpiezNlUJb-fQGGcvA3lBqJ";
         $.ajax({
             url: urlId,
             async: true,
@@ -116,8 +107,6 @@ $(document).ready(function() {
         $.each(taskName, function(key, val) {
             $this = $(this);
 
-            //$('.all').addClass('active').siblings().removeClass('hide');
-
             var pos = $this.val().toLowerCase().indexOf(srchVal);
 
             if (!$this.parents('task').hasClass('hide')) {
@@ -131,7 +120,6 @@ $(document).ready(function() {
                     $this.parents('.task').removeClass('searchHide');
                 }
             }
-
         });
     });
 
@@ -205,17 +193,24 @@ $(document).ready(function() {
         if (all.hasClass('active')) {
             $.each(taskStatus, function(key, val) {
                 $this = $(this);
-                $this.parents('.task').siblings().removeClass('hide');
+                $this
+                    .parents('.task')
+                    .removeClass('hide')
+                    .siblings()
+                    .removeClass('hide');
 
             });
         }
     });
 
+
+
 });
 
 function getTask() {
+
     $.ajax({
-        url: "https://api.mlab.com/api/1/databases/phonebook/collections/task?apiKey=qk_MeyFtWmpiezNlUJb-fQGGcvA3lBqJ",
+        url: "https://api.mlab.com/api/1/databases/phonebook/collections/" + db + "?apiKey=qk_MeyFtWmpiezNlUJb-fQGGcvA3lBqJ",
         type: "GET"
     }).done(function(data) {
         var task = '';
@@ -270,12 +265,11 @@ function getTask() {
         if (task == "") {
             task = '<h2>Nothing to do )))</h2>'
         }
-
         $('.taskBook').html(task);
-
     });
 }
 
+// date added task and date for input type=date
 function getDate() {
     var date = new Date();
     var year = date.getFullYear();
@@ -287,12 +281,13 @@ function getDate() {
     return year + '-' + month + '-' + day;
 }
 
+// doubleclick on task name
 function editDBLTaskName() {
     var $this = $(this);
     var done = $this.siblings().filter('.taskDone').data('done');
     var valDate = $this.parent().siblings().filter('.timeEnd').data('deadline');
     var id = $this.siblings().filter('.editLink').data('id');
-    var urlId = "https://api.mlab.com/api/1/databases/phonebook/collections/task/" + id + "?apiKey=qk_MeyFtWmpiezNlUJb-fQGGcvA3lBqJ";
+    var urlId = "https://api.mlab.com/api/1/databases/phonebook/collections/" + db + "/" + id + "?apiKey=qk_MeyFtWmpiezNlUJb-fQGGcvA3lBqJ";
     var type = "PUT";
 
     if (!done) {
@@ -326,7 +321,7 @@ function editTaskStatus() {
     var $this = $(this);
     var valDate = $this.parent().siblings().filter('.timeEnd').data('deadline');
     var id = $this.siblings().filter('.editLink').data('id');
-    var urlId = "https://api.mlab.com/api/1/databases/phonebook/collections/task/" + id + "?apiKey=qk_MeyFtWmpiezNlUJb-fQGGcvA3lBqJ";
+    var urlId = "https://api.mlab.com/api/1/databases/phonebook/collections/" + db + "/" + id + "?apiKey=qk_MeyFtWmpiezNlUJb-fQGGcvA3lBqJ";
     var inpt = $this.siblings().filter('.taskRend').attr('placeholder');
     var type = "PUT";
     var done;
@@ -340,7 +335,6 @@ function editTaskStatus() {
     //refresh server data
     updateTask(urlId, type, inpt, valDate, done);
 }
-
 
 function updateTask(url, type, taskName, deadline, status) {
 

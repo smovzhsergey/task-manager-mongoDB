@@ -7,6 +7,12 @@ body {
     font-family: 'Comic Sans MS';
 }
 
+h1,
+h2,
+h5 {
+    text-align: center;
+}
+
 .clear:after {
     content: "";
     clear: both;
@@ -172,4 +178,81 @@ input.done {
     .page {
         width: 96%;
     }
+}
+
+.tab {
+    box-shadow: 0 10px 6px -5px rgba(0, 0, 0, 0.3), 10px 0 6px -5px rgba(0, 0, 0, 0.3), 0 -10px 6px -5px rgba(0, 0, 0, 0.3), -10px 0 6px -5px rgba(0, 0, 0, 0.3);
+    margin: 0 auto;
+    overflow: hidden;
+    padding: 15px 0;
+    width: 600px;
+}
+
+
+/*====== tab panel ======*/
+
+.tabpanel {
+    list-style: none;
+    padding: 0;
+}
+
+.activeTab:before {
+    background: #222;
+    bottom: -5px;
+    content: "";
+    display: inline-block;
+    height: 3px;
+    right: 25%;
+    position: absolute;
+    width: 50%;
+}
+
+.tabpanel li {
+    cursor: pointer;
+    float: left;
+    position: relative;
+    text-align: center;
+    width: 50%;
+}
+
+
+/*====== Form AUTH ======*/
+
+#authForm,
+#newUserForm {
+    width: 100%;
+}
+
+#authForm input,
+#newUserForm input {
+    border: 1px solid #B4C7E7;
+    border-radius: 7px;
+    box-sizing: border-box;
+    width: 80%;
+    margin: 30px auto;
+    display: block;
+}
+
+#authForm input:focus,
+#newUserForm input:focus {
+    box-shadow: inset 2px 2px 2px rgba(180, 199, 231, 0.3), inset -2px -2px 2px rgba(180, 199, 231, 0.3);
+}
+
+#sent,
+#add {
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.4s;
+}
+
+#sent:hover,
+#add:hover {
+    background: #B4C7E7;
+    color: #fff;
+}
+
+.error {
+    color: red;
+    font-size: 12px;
+    position: absolute;
 }
