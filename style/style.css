@@ -27,6 +27,23 @@ h5 {
 }
 
 
+/*====== Header ======*/
+
+header * {
+    float: right;
+}
+
+.userLogin {
+    font-size: 24px;
+    margin-right: 20px;
+}
+
+.exit:hover {
+    color: #E32B31;
+    cursor: pointer;
+}
+
+
 /*====== Form Add Task ======*/
 
 #form {

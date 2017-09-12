@@ -1,10 +1,12 @@
 $(document).ready(function() {
-    db = localStorage.getItem('db')
-        // min start date for input[date]
+    db = localStorage.getItem('db');
+    var userLogin = localStorage.getItem('userLogin');
+
+    $('.userLogin').text('Hello, ' + userLogin);
+    // min start date for input[date]
     $('input[type = date]').attr('min', getDate);
 
     getTask();
-
 
     // add task
     $('#form').on('submit', function(e) {
@@ -203,6 +205,9 @@ $(document).ready(function() {
         }
     });
 
+    $('.exit').on('click', function() {
+        document.location.href = "index.html";
+    });
 
 
 });
