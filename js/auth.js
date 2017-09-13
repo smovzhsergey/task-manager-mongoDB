@@ -1,5 +1,5 @@
 $(document).ready(function() {
-
+    var loader = $('.loaderWrap');
     $('.tabpanel>li').on('click', function() {
         var $this = $(this);
         if (!$this.hasClass('activeTab')) {
@@ -23,6 +23,8 @@ $(document).ready(function() {
         var pass = $('#pass').val();
         var serverResponse = false;
 
+        loader.removeClass('hide');
+
         if (login !== '' && pass !== '') {
             $.ajax({
                 url: "https://api.mlab.com/api/1/databases/phonebook/collections/users?apiKey=qk_MeyFtWmpiezNlUJb-fQGGcvA3lBqJ",
@@ -39,19 +41,20 @@ $(document).ready(function() {
                             document.location.href = "taskmanager.html";
                             serverResponse = true;
                             $('#authForm')[0].reset();
+                            loader.addClass('hide');
                         }
                     }
                 });
-                if (serverResponse == false)
+                if (serverResponse == false) {
+                    loader.addClass('hide');
                     addErrorMesage($('#userName'), 'Bad Login or Pasword');
+                }
             });
 
             $('#authForm input').focus(function() {
                 $('span.error').text('');
             });
-
         }
-
     });
 
     $('#confNewUserPass').on('blur', function() {
@@ -71,6 +74,7 @@ $(document).ready(function() {
         var confNewUserPass = $('#confNewUserPass').val();
 
         if (newUserLogin !== '' && newUserPass !== '' && newUserPass == confNewUserPass) {
+            loader.removeClass('hide');
 
             $.ajax({
                 url: "https://api.mlab.com/api/1/databases/phonebook/collections/users?apiKey=qk_MeyFtWmpiezNlUJb-fQGGcvA3lBqJ",
@@ -85,14 +89,13 @@ $(document).ready(function() {
                     localStorage.setItem('userLogin', data.login);
                     localStorage.setItem('db', data._id.$oid);
                     document.location.href = "taskmanager.html";
+                    $('#newUserForm')[0].reset();
+                    loader.addClass('hide');
                 },
                 error: function(xhr, status, err) {
                     console.log(err);
                 }
             });
-
-            //clear form
-            $('#newUserForm')[0].reset();
         }
     });
 });
@@ -100,8 +103,10 @@ $(document).ready(function() {
 function addErrorMesage(el, message) {
     var left = el.offset().left + 10;
     var top = el.offset().top + parseInt(el.css('height')) + 5;
-    $('span.error')
-        .text('Pasword not correct')
+    el
+        .parent()
+        .find('span.error')
+        .text(message)
         .css({
             'top': top,
             'left': left
