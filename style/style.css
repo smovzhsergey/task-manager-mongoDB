@@ -222,6 +222,8 @@ input.done {
     right: 25%;
     position: absolute;
     width: 50%;
+    animation: anim 0.2s ease;
+    animation-fill-mode: forwards;
 }
 
 .tabpanel li {
@@ -230,6 +232,17 @@ input.done {
     position: relative;
     text-align: center;
     width: 50%;
+}
+
+@keyframes anim {
+    0% {
+        width: 0;
+        right: 50%;
+    }
+    100% {
+        width: 50%;
+        right: 25%;
+    }
 }
 
 
