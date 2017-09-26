@@ -2,6 +2,8 @@ $(document).ready(function() {
     db = localStorage.getItem('db');
     var userLogin = localStorage.getItem('userLogin');
 
+
+
     $('.userLogin').text('Hello, ' + userLogin);
     // min start date for input[date]
     $('input[type = date]').attr('min', getDate);

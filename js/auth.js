@@ -56,6 +56,7 @@ $(document).ready(function() {
 
             $('#authForm input').focus(function() {
                 removeErrorMesage($(this));
+                $(this).removeClass('errorValue');
             });
         }
     });
@@ -73,8 +74,7 @@ $(document).ready(function() {
                 $.each(data, function(key, val) {
 
                     if ($this.val() == val.login) {
-                        addErrorMesage($this, 'This login is not already taken');
-                        $this.addClass('errorValue');
+                        addErrorMesage($this, 'This user name is already taken. Please use different one.');
                     }
                 });
                 loader.addClass('hide');
@@ -91,11 +91,15 @@ $(document).ready(function() {
         var $this = $(this);
 
         if ($this.val() != $('#newUserPass').val()) {
-            addErrorMesage($this, 'Pasword not correct');
+            if (!$this.hasClass('errorValue'))
+                addErrorMesage($this, 'Pasword not correct');
         } else {
             removeErrorMesage($this);
+            $this.removeClass('errorValue');
         }
     });
+
+
 
     $('#newUserForm').on('submit', function(e) {
         e.preventDefault();
@@ -140,6 +144,8 @@ function addErrorMesage(el, message) {
             'top': top,
             'left': left
         });
+
+    el.addClass('errorValue');
 }
 
 function removeErrorMesage(el) {
