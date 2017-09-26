@@ -337,6 +337,12 @@ input.done {
     animation-delay: 0.1s;
 }
 
+.wrongBrows {
+    color: red;
+    font-size: 12px;
+    text-align: center;
+}
+
 @keyframes rotation1 {
     to {
         transform: rotate(360deg);

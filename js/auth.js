@@ -1,4 +1,7 @@
 $(document).ready(function() {
+
+    userAgent();
+
     var loader = $('.loaderWrap');
     $('.tabpanel>li').on('click', function() {
         var $this = $(this);
@@ -52,9 +55,36 @@ $(document).ready(function() {
             });
 
             $('#authForm input').focus(function() {
-                $('span.error').text('');
+                removeErrorMesage($(this));
             });
         }
+    });
+
+    // check username
+    $('#newUserName').on('blur', function() {
+        var $this = $(this);
+        if ($this.val() !== '') {
+            loader.removeClass('hide');
+            $.ajax({
+                url: "https://api.mlab.com/api/1/databases/phonebook/collections/users?apiKey=qk_MeyFtWmpiezNlUJb-fQGGcvA3lBqJ",
+                type: "GET",
+            }).done(function(data) {
+
+                $.each(data, function(key, val) {
+
+                    if ($this.val() == val.login) {
+                        addErrorMesage($this, 'This login is not already taken');
+                        $this.addClass('errorValue');
+                    }
+                });
+                loader.addClass('hide');
+            });
+        }
+    });
+
+    $('#newUserName').focus(function() {
+        removeErrorMesage($(this));
+        $(this).removeClass('errorValue');
     });
 
     $('#confNewUserPass').on('blur', function() {
@@ -63,7 +93,7 @@ $(document).ready(function() {
         if ($this.val() != $('#newUserPass').val()) {
             addErrorMesage($this, 'Pasword not correct');
         } else {
-            $('span.error').text('');
+            removeErrorMesage($this);
         }
     });
 
@@ -73,7 +103,7 @@ $(document).ready(function() {
         var newUserPass = $('#newUserPass').val();
         var confNewUserPass = $('#confNewUserPass').val();
 
-        if (newUserLogin !== '' && newUserPass !== '' && newUserPass == confNewUserPass) {
+        if (newUserLogin !== '' && newUserPass !== '' && newUserPass == confNewUserPass && !$('#newUserName').hasClass('errorValue')) {
             loader.removeClass('hide');
 
             $.ajax({
@@ -103,12 +133,25 @@ $(document).ready(function() {
 function addErrorMesage(el, message) {
     var left = el.offset().left + 10;
     var top = el.offset().top + parseInt(el.css('height')) + 5;
-    el
-        .parent()
-        .find('span.error')
+    $('<span class = "error"></span>')
+        .insertAfter(el)
         .text(message)
         .css({
             'top': top,
             'left': left
         });
+}
+
+function removeErrorMesage(el) {
+    el.next('span.error').remove();
+}
+
+// check user browser
+function userAgent() {
+    var browser = navigator.userAgent;
+
+    if (browser.search(/Firefox/) > -1 || browser.search(/MSIE/) > -1 || browser.search(/Trident/) > -1) {
+
+        $('body').prepend('<p class = "wrongBrows">Sorry, but the application is working correctly (temporarily) in Chrome and Opera... </p>');
+    }
 }
